@@ -18,7 +18,18 @@ Password is the one you set up in .env file
 # Config file details
 
 # .env file
+You need to update the value of ZIGBEE_ADAPTER_TTY to the actual tty that you have on you machine, otherwise the container will not start. For example, for CC2531 this is /dev/ttyACM0.
+Also, you should change the default passwords with something else.
+    
+    LOCAL_USER=1000
+    MYSQL_ROOT_PASSWORD=password
+    HA_MYSQL_PASSWORD=password
+    VSCODE_PASSWORD=password
+    ZIGBEE_ADAPTER_TTY=/dev/ttyACM0
+    
+    
 
+    
 # docker-compose.yaml
 
   # HomeAssistant
