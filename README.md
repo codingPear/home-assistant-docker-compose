@@ -85,3 +85,20 @@ Password is the one you set up in .env file
     devices:
       - "${ZIGBEE_ADAPTER_TTY}:/dev/ttyZigbee"
     
+
+
+# Visual Studio code
+Runs VSCode in the webbrowser. Not need by any of the other containers, but usefull when editing Home Assistant YAML files.
+
+      vscode:
+       container_name: vscode
+       image: codercom/code-server:latest
+       restart: unless-stopped
+       environment:
+         PASSWORD: "${VSCODE_PASSWORD}"
+       volumes:
+         - .:/home/coder/project
+         - ./store/coder:/home/coder/.local/share/code-server
+       ports:
+         - "8443:8443"
+       command: code-server --auth password --port 8443 --disable-telemetry /home/coder/project
