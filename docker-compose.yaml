@@ -58,7 +58,7 @@ services:
       - ./config/zigbee2mqtt:/app/data
       - /run/udev:/run/udev:ro 
     devices:
-      - "/dev/ttyACM0:/dev/ttyACM0"
+      - "${ZIGBEE_ADAPTER_TTY}:/dev/ttyZigbee"
     privileged: true
 
 
