@@ -1,0 +1,5 @@
+info  2021-10-01 14:30:17: Logging to console and directory: '/app/data/log/2021-10-01.14-30-16' filename: log.txt
+info  2021-10-01 14:30:17: Starting Zigbee2MQTT version 1.21.1 (commit #eb5750d
+)
+info  2021-10-01 14:30:17: Starting zigbee-herdsman (0.13.138)
+error 2021-10-01 14:30:17: Error while starting zigbee-herdsman

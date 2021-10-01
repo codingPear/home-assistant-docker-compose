@@ -1,79 +1,81 @@
 version: '3'
 services:
-  # HomeAssistant
+  # # HomeAssistant
   homeassistant:
     container_name: home-assistant
     image: homeassistant/home-assistant:latest
     volumes:
       # Local path where your home assistant config will be stored
-      - ./home-assistant:/config
+      - ./config/home-assistant:/config
       - /etc/localtime:/etc/localtime:ro
     restart: unless-stopped
     network_mode: host
-    depends_on:
-      - mariadb # MariaDB is optional (only if you would like to use a different database for HA).
-      - zigbee2mqtt  # zigbee2mqtt is optional (only if you want to add Zigbee devices and have a zigbee sniffer attached).
-      - eclipse-mosquitto # aka mosquitto-mqtt is optional (only if you want to add Zigbee devices and have a zigbee sniffer attached).
-    user: "${LOCAL_USER}:${LOCAL_USER}"
-
-  # MariaDb
-  mariadb:
-    image: mariadb/server:10.3
-    container_name: mariadb
-    restart: unless-stopped
-    environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: ha_db
-      MYSQL_USER: homeassistant
-      MYSQL_PASSWORD: "${HA_MYSQL_PASSWORD}"
-    user: "${LOCAL_USER}:${LOCAL_USER}"
-    volumes:
-      # Local path where the database will be stored.
-      - ./mariadb:/var/lib/mysql
-    ports:
-      - 3306:3306
-
-  # eclipse-mosquitto (MQTT broker)
-  eclipse-mosquitto:
-    container_name: eclipse-mosquitto
-    image: eclipse-mosquitto:latest
-    restart: unless-stopped
-    network_mode: host
-    volumes:
-      - .config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-    ports:
-      - 1883:1883
-      - 9001:9001
-
-  # zigbee2mqtt
-  zigbee2mqtt:
-    container_name: zigbee2mqtt
-    image: koenkk/zigbee2mqtt:latest
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - TZ=Europe/Bucharest
-    volumes:
-      - ./config/zigbee2mqtt:/app/data
-      - /run/udev:/run/udev:ro 
-    devices:
-      - "/dev/ttyACM0:/dev/ttyACM0"
     privileged: true
+   depends_on:
+     - mariadb # MariaDB is optional (only if you would like to use a different database for HA).
+     - zigbee2mqtt  # zigbee2mqtt is optional (only if you want to add Zigbee devices and have a zigbee sniffer attached).
+     - eclipse-mosquitto # aka mosquitto-mqtt is optional (only if you want to add Zigbee devices and have a zigbee sniffer attached).
+#    user: "${LOCAL_USER}:${LOCAL_USER}"
 
 
-  # Visual Studio code
- # vscode:
- #   container_name: vscode
- #   image: codercom/code-server:v2
- #   volumes:
- #     # Set <project dir> to the directory you want to open in VS Code.
- #     - <project dir>:/home/coder/project
- #     # <vs code config> should point to a local dir where vs code stores its data.
- #     - <vs code config dir>:/home/coder/.local/share/code-server
- #   ports:
- #     - "8443:8443"
- #   command: code-server --auth password --port 8443 --disable-telemetry /home/coder/project
- #   environment:
- #     PASSWORD: "${VSCODE_PASSWORD}"
- #   restart: unless-stopped
+#   # MariaDb
+#   mariadb:
+#     image: mariadb:10.2
+#     container_name: mariadb
+#     restart: unless-stopped
+#     environment:
+#       MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
+#       MYSQL_DATABASE: ha_db
+#       MYSQL_USER: homeassistant
+#       MYSQL_PASSWORD: "${HA_MYSQL_PASSWORD}"
+#     user: "${LOCAL_USER}:${LOCAL_USER}"
+#     volumes:
+#       # Local path where the database will be stored.
+#       - ./store/mariadb:/var/lib/mysql
+#     ports:
+#       - 3306:3306
+
+#   # # eclipse-mosquitto (MQTT broker)
+#   eclipse-mosquitto:
+#     container_name: eclipse-mosquitto
+#     image: eclipse-mosquitto:latest
+#     restart: unless-stopped
+#     network_mode: host
+#     volumes:
+#       - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
+#     ports:
+#       - 1883:1883
+#       - 9001:9001
+
+#   # # zigbee2mqtt
+#   # zigbee2mqtt:
+#   #   container_name: zigbee2mqtt
+#   #   image: koenkk/zigbee2mqtt:latest
+#   #   restart: unless-stopped
+#   #   network_mode: host
+#   #   environment:
+#   #     - TZ=Europe/Bucharest
+#   #   volumes:
+#   #     - ./config/zigbee2mqtt:/app/data
+#   #     - /run/udev:/run/udev:ro 
+#   #   devices:
+#   #     - "/dev/ttyACM0:/dev/ttyACM0"
+#   #   privileged: true
+
+
+#  # Visual Studio code
+#   vscode:
+#    container_name: vscode
+#    image: codercom/code-server:latest
+#    volumes:
+#      # Set <project dir> to the directory you want to open in VS Code.
+#      - .:/home/coder/project
+#      # <vs code config> should point to a local dir where vs code stores its data.
+#      - ./store/coder:/home/coder/.local/share/code-server
+#    ports:
+#      - "8443:8443"
+#    command: code-server --auth password --port 8443 --disable-telemetry /home/coder/project
+#    environment:
+#      PASSWORD: "${VSCODE_PASSWORD}"
+#    restart: unless-stopped
 
