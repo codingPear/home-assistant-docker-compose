@@ -12,7 +12,8 @@ Some changes are required, but outside of editing ".env" file, it should work ou
     docker-compose up -d
     
     
-Home Assistant URL: http://< serverIP >:8123 (or http://localhost:8123 if deployed locally)
+Home Assistant URL: http://< serverIP >:8123 (or http://localhost:8123 if deployed locally).
+
 Password is the one you set up in .env file
 
 # Config file details
