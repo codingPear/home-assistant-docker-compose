@@ -31,8 +31,7 @@ services:
     volumes:
       # Local path where the database will be stored.
       - ./store/mariadb:/var/lib/mysql
-    ports:
-      - 3306:3306
+
 
   # eclipse-mosquitto (MQTT broker)
   eclipse-mosquitto:
@@ -42,9 +41,7 @@ services:
     network_mode: host
     volumes:
       - ./config/mosquitto/mosquitto.conf:/mosquitto/config/mosquitto.conf
-    ports:
-      - 1883:1883
-      - 9001:9001
+
 
   # zigbee2mqtt
   zigbee2mqtt:
